@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		761F6DFD26C9AA0700E294FA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 761F6DFC26C9AA0700E294FA /* GoogleService-Info.plist */; };
+		7670F58626AC266F00C51F0B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7670F58526AC266F00C51F0B /* HomeViewController.swift */; };
+		7670F58826AC269A00C51F0B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7670F58726AC269A00C51F0B /* Extensions.swift */; };
 		76EB0EF226AA13660044607C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EB0EF126AA13660044607C /* AppDelegate.swift */; };
 		76EB0EF426AA13660044607C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EB0EF326AA13660044607C /* SceneDelegate.swift */; };
 		76EB0EF626AA13660044607C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EB0EF526AA13660044607C /* LoginViewController.swift */; };
@@ -14,9 +17,13 @@
 		76EB0EFB26AA13670044607C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76EB0EFA26AA13670044607C /* Assets.xcassets */; };
 		76EB0EFE26AA13670044607C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76EB0EFC26AA13670044607C /* LaunchScreen.storyboard */; };
 		76EB0F0926AA13E60044607C /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EB0F0826AA13E60044607C /* RegistrationViewController.swift */; };
+		E38AFBED5EC9C0B308D71DED /* Pods_Pill_Reminder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 946489A64BE1F41F0ED98F89 /* Pods_Pill_Reminder.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		761F6DFC26C9AA0700E294FA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		7670F58526AC266F00C51F0B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		7670F58726AC269A00C51F0B /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		76EB0EEE26AA13660044607C /* Pill Reminder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pill Reminder.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		76EB0EF126AA13660044607C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		76EB0EF326AA13660044607C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -26,6 +33,9 @@
 		76EB0EFD26AA13670044607C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		76EB0EFF26AA13670044607C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		76EB0F0826AA13E60044607C /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
+		799C2C82CC3009FC642A82F6 /* Pods-Pill Reminder.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pill Reminder.release.xcconfig"; path = "Target Support Files/Pods-Pill Reminder/Pods-Pill Reminder.release.xcconfig"; sourceTree = "<group>"; };
+		7AB7EFE5AB22146FD1A170EB /* Pods-Pill Reminder.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pill Reminder.debug.xcconfig"; path = "Target Support Files/Pods-Pill Reminder/Pods-Pill Reminder.debug.xcconfig"; sourceTree = "<group>"; };
+		946489A64BE1F41F0ED98F89 /* Pods_Pill_Reminder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pill_Reminder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,17 +43,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E38AFBED5EC9C0B308D71DED /* Pods_Pill_Reminder.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7670F58926AC275900C51F0B /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				7670F58726AC269A00C51F0B /* Extensions.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		76EB0EE526AA13660044607C = {
 			isa = PBXGroup;
 			children = (
 				76EB0EF026AA13660044607C /* Pill Reminder */,
 				76EB0EEF26AA13660044607C /* Products */,
+				C3F85EAC789246B835DA74E9 /* Pods */,
+				F3E17DAD517CAE79D2A47B09 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -61,10 +82,12 @@
 				76EB0F0526AA13840044607C /* Model */,
 				76EB0F0626AA138D0044607C /* View */,
 				76EB0F0726AA13950044607C /* Controller */,
+				7670F58926AC275900C51F0B /* Utils */,
 				76EB0EF126AA13660044607C /* AppDelegate.swift */,
 				76EB0EF326AA13660044607C /* SceneDelegate.swift */,
 				76EB0EFA26AA13670044607C /* Assets.xcassets */,
 				76EB0EFF26AA13670044607C /* Info.plist */,
+				761F6DFC26C9AA0700E294FA /* GoogleService-Info.plist */,
 			);
 			path = "Pill Reminder";
 			sourceTree = "<group>";
@@ -90,8 +113,27 @@
 			children = (
 				76EB0F0826AA13E60044607C /* RegistrationViewController.swift */,
 				76EB0EF526AA13660044607C /* LoginViewController.swift */,
+				7670F58526AC266F00C51F0B /* HomeViewController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		C3F85EAC789246B835DA74E9 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7AB7EFE5AB22146FD1A170EB /* Pods-Pill Reminder.debug.xcconfig */,
+				799C2C82CC3009FC642A82F6 /* Pods-Pill Reminder.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		F3E17DAD517CAE79D2A47B09 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				946489A64BE1F41F0ED98F89 /* Pods_Pill_Reminder.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -101,9 +143,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 76EB0F0226AA13670044607C /* Build configuration list for PBXNativeTarget "Pill Reminder" */;
 			buildPhases = (
+				BB93F2B15E466632C709F044 /* [CP] Check Pods Manifest.lock */,
 				76EB0EEA26AA13660044607C /* Sources */,
 				76EB0EEB26AA13660044607C /* Frameworks */,
 				76EB0EEC26AA13660044607C /* Resources */,
+				D8A60A5F0840BDD9A6A052E4 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -152,6 +196,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				76EB0EFE26AA13670044607C /* LaunchScreen.storyboard in Resources */,
+				761F6DFD26C9AA0700E294FA /* GoogleService-Info.plist in Resources */,
 				76EB0EFB26AA13670044607C /* Assets.xcassets in Resources */,
 				76EB0EF926AA13660044607C /* Main.storyboard in Resources */,
 			);
@@ -159,11 +204,55 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		BB93F2B15E466632C709F044 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Pill Reminder-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D8A60A5F0840BDD9A6A052E4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Pill Reminder/Pods-Pill Reminder-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Pill Reminder/Pods-Pill Reminder-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Pill Reminder/Pods-Pill Reminder-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		76EB0EEA26AA13660044607C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7670F58626AC266F00C51F0B /* HomeViewController.swift in Sources */,
+				7670F58826AC269A00C51F0B /* Extensions.swift in Sources */,
 				76EB0EF626AA13660044607C /* LoginViewController.swift in Sources */,
 				76EB0EF226AA13660044607C /* AppDelegate.swift in Sources */,
 				76EB0F0926AA13E60044607C /* RegistrationViewController.swift in Sources */,
@@ -311,6 +400,7 @@
 		};
 		76EB0F0326AA13670044607C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AB7EFE5AB22146FD1A170EB /* Pods-Pill Reminder.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -330,6 +420,7 @@
 		};
 		76EB0F0426AA13670044607C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 799C2C82CC3009FC642A82F6 /* Pods-Pill Reminder.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
