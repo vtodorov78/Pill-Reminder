@@ -3,17 +3,19 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		760DBEE826DB5CA100122FD1 /* Medication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760DBEE726DB5CA100122FD1 /* Medication.swift */; };
+		760DBEEA26DB626F00122FD1 /* MedicationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760DBEE926DB626F00122FD1 /* MedicationCell.swift */; };
 		761F6DFD26C9AA0700E294FA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 761F6DFC26C9AA0700E294FA /* GoogleService-Info.plist */; };
 		7670F58626AC266F00C51F0B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7670F58526AC266F00C51F0B /* HomeViewController.swift */; };
 		7670F58826AC269A00C51F0B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7670F58726AC269A00C51F0B /* Extensions.swift */; };
+		76CB82ED26EA8E4200147687 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CB82EC26EA8E4200147687 /* AddViewController.swift */; };
 		76EB0EF226AA13660044607C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EB0EF126AA13660044607C /* AppDelegate.swift */; };
 		76EB0EF426AA13660044607C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EB0EF326AA13660044607C /* SceneDelegate.swift */; };
 		76EB0EF626AA13660044607C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EB0EF526AA13660044607C /* LoginViewController.swift */; };
-		76EB0EF926AA13660044607C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76EB0EF726AA13660044607C /* Main.storyboard */; };
 		76EB0EFB26AA13670044607C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76EB0EFA26AA13670044607C /* Assets.xcassets */; };
 		76EB0EFE26AA13670044607C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76EB0EFC26AA13670044607C /* LaunchScreen.storyboard */; };
 		76EB0F0926AA13E60044607C /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EB0F0826AA13E60044607C /* RegistrationViewController.swift */; };
@@ -21,14 +23,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		760DBEE726DB5CA100122FD1 /* Medication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Medication.swift; sourceTree = "<group>"; };
+		760DBEE926DB626F00122FD1 /* MedicationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicationCell.swift; sourceTree = "<group>"; };
 		761F6DFC26C9AA0700E294FA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7670F58526AC266F00C51F0B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		7670F58726AC269A00C51F0B /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		76CB82EC26EA8E4200147687 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		76EB0EEE26AA13660044607C /* Pill Reminder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pill Reminder.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		76EB0EF126AA13660044607C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		76EB0EF326AA13660044607C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		76EB0EF526AA13660044607C /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		76EB0EF826AA13660044607C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		76EB0EFA26AA13670044607C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		76EB0EFD26AA13670044607C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		76EB0EFF26AA13670044607C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -95,6 +99,7 @@
 		76EB0F0526AA13840044607C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				760DBEE726DB5CA100122FD1 /* Medication.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -102,8 +107,8 @@
 		76EB0F0626AA138D0044607C /* View */ = {
 			isa = PBXGroup;
 			children = (
-				76EB0EF726AA13660044607C /* Main.storyboard */,
 				76EB0EFC26AA13670044607C /* LaunchScreen.storyboard */,
+				760DBEE926DB626F00122FD1 /* MedicationCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -114,6 +119,7 @@
 				76EB0F0826AA13E60044607C /* RegistrationViewController.swift */,
 				76EB0EF526AA13660044607C /* LoginViewController.swift */,
 				7670F58526AC266F00C51F0B /* HomeViewController.swift */,
+				76CB82EC26EA8E4200147687 /* AddViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -124,7 +130,6 @@
 				7AB7EFE5AB22146FD1A170EB /* Pods-Pill Reminder.debug.xcconfig */,
 				799C2C82CC3009FC642A82F6 /* Pods-Pill Reminder.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -198,7 +203,6 @@
 				76EB0EFE26AA13670044607C /* LaunchScreen.storyboard in Resources */,
 				761F6DFD26C9AA0700E294FA /* GoogleService-Info.plist in Resources */,
 				76EB0EFB26AA13670044607C /* Assets.xcassets in Resources */,
-				76EB0EF926AA13660044607C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,8 +255,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				760DBEE826DB5CA100122FD1 /* Medication.swift in Sources */,
 				7670F58626AC266F00C51F0B /* HomeViewController.swift in Sources */,
+				76CB82ED26EA8E4200147687 /* AddViewController.swift in Sources */,
 				7670F58826AC269A00C51F0B /* Extensions.swift in Sources */,
+				760DBEEA26DB626F00122FD1 /* MedicationCell.swift in Sources */,
 				76EB0EF626AA13660044607C /* LoginViewController.swift in Sources */,
 				76EB0EF226AA13660044607C /* AppDelegate.swift in Sources */,
 				76EB0F0926AA13E60044607C /* RegistrationViewController.swift in Sources */,
@@ -263,14 +270,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		76EB0EF726AA13660044607C /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				76EB0EF826AA13660044607C /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		76EB0EFC26AA13670044607C /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
