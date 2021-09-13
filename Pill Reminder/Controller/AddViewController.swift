@@ -32,7 +32,7 @@ class AddViewController: UIViewController {
         textField.textColor = .black
         textField.layer.cornerRadius = 5
         textField.backgroundColor = .white
-        textField.setLeftPaddingPoints(10)
+        textField.setLeftPaddingPoints(10)  
         return textField
     }()
     
@@ -55,7 +55,6 @@ class AddViewController: UIViewController {
         let iv = UIImageView(image: UIImage(named: "pill2png"))
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFit
-        iv.layer.cornerRadius = 5
         return iv
     }()
     
@@ -154,6 +153,7 @@ class AddViewController: UIViewController {
     }
     
     // MARK: - Helper Functions
+    
     func configureViewComponents() {
         view.backgroundColor = .lightGray
         

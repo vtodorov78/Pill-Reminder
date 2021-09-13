@@ -24,7 +24,7 @@ class MedicationCell: UITableViewCell {
         let label = UILabel()
         label.textColor = .black
         label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 14)
+        label.font = UIFont.boldSystemFont(ofSize: 16)
         return label
     }()
     
@@ -38,7 +38,7 @@ class MedicationCell: UITableViewCell {
     
     let amountLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .red
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 14)
         return label
@@ -54,7 +54,7 @@ class MedicationCell: UITableViewCell {
     }()
     
     lazy var stack1: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [timeLabel, titleLabel, amountLabel])
+        let stack = UIStackView(arrangedSubviews: [timeLabel, amountLabel])
         return stack
     }()
     
@@ -88,10 +88,14 @@ class MedicationCell: UITableViewCell {
         addSubview(medicationImageView)
         medicationImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: self.frame.width/4, height: self.frame.height)
         
+        addSubview(titleLabel)
+        titleLabel.anchor(top: topAnchor, left: medicationImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: self.frame.height/2)
+        
        addSubview(stack1)
-        stack1.axis = .vertical
+        stack1.axis = .horizontal
         stack1.distribution = .equalSpacing
-        stack1.anchor(top: topAnchor, left: medicationImageView.rightAnchor, bottom: bottomAnchor, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 5, paddingRight: 0, width: 0, height: self.frame.height)
+        stack1.spacing = 10
+        stack1.anchor(top: titleLabel.bottomAnchor, left: medicationImageView.rightAnchor, bottom: bottomAnchor, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 10, paddingRight: 0, width: 0, height: self.frame.height/2)
         
         addSubview(checkmarkButton)
         checkmarkButton.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 15, paddingRight: 15, width: self.frame.width/8, height: 0)
