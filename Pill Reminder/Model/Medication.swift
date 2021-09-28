@@ -9,9 +9,9 @@ import UIKit
 
 struct Medication {
     
-    let title: String
-    let amount: String
-    let date: Date
-    let indentifier: String
-    let image: UIImage
+    var title: String
+    var amount: String
+    var date: Date
+    var indentifier: String
+    var image: UIImage
 }

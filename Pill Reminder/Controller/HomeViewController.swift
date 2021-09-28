@@ -18,6 +18,22 @@ class HomeViewController: UITableViewController {
     var isChecked = false
     
     let signOutImage = UIImage(systemName: "arrow.left")
+    
+    let emptyLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Add your first medication."
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textAlignment = .center
+        return label
+    }()
+    
+    lazy var emptyView: UIView = {
+        let view = UIView()
+        view.addSubview(emptyLabel)
+        emptyLabel.center(inView: view)
+        return view
+    }()
 
     
     // MARK: - Init
@@ -26,6 +42,7 @@ class HomeViewController: UITableViewController {
         super.viewDidLoad()
         
         tableView.register(MedicationCell.self, forCellReuseIdentifier: MedicationCell.reuseIdentifier)
+        
         authenticateUserAndConfigureView()
     }
     
@@ -41,40 +58,15 @@ class HomeViewController: UITableViewController {
                 let new = Medication(title: title, amount: amount, date: date, indentifier: "id_\(title)", image: image)
                 self.medications.append(new)
                 self.tableView.reloadData()
-                
-                let content = UNMutableNotificationContent()
-                content.title = title
-                content.sound = .default
-                content.body = amount
-                
-                let targetDate = date
-                let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: targetDate), repeats: false)
-                let request = UNNotificationRequest(identifier: "some long id", content: content, trigger: trigger)
-                UNUserNotificationCenter.current().add(request, withCompletionHandler: { error in
-                    if error != nil {
-                        print("Something went wron!")
-                    }
-                })
             }
         }
         navigationController?.pushViewController(addVC, animated: true)
         
-        
-        
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound], completionHandler: { success, error in
-            if success {
-                // schedule test
-                self.scheduleTest()
-            } else if error != nil {
-                print("Error occured")
-            }
-        })
-         
     }
     
     
     @objc func putCheckmark(sender: UIButton) {
-        if sender.isSelected{
+        if sender.isSelected {
             sender.isSelected = false
         } else {
             sender.isSelected = true
@@ -127,24 +119,11 @@ class HomeViewController: UITableViewController {
     }
     
     // MARK: - Helper Functions
-    
-    func scheduleTest() {
-        let content = UNMutableNotificationContent()
-        content.title = "Hello World!"
-        content.sound = .default
-        content.body = "My Long Body."
-        
-        let targetDate = Date().addingTimeInterval(10)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: targetDate), repeats: false)
-        let request = UNNotificationRequest(identifier: "some long id", content: content, trigger: trigger)
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: { error in
-            if error != nil {
-                print("Something went wron!")
-            }
-        })
-    }
-    
+
+
     func configureViewComponents() {
+        
+        tableView.tableFooterView = UIView()
         
         view.backgroundColor = .white
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: signOutImage, style: .plain, target: self, action: #selector(handleSignOut))
@@ -153,10 +132,19 @@ class HomeViewController: UITableViewController {
         navigationController?.navigationBar.barTintColor = .mainBlue()
         navigationItem.title = "My Medications"
         
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .mainBlue()
+        navigationController?.navigationBar.standardAppearance = appearance;
+        navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
+        
         tableView.register(MedicationCell.self, forCellReuseIdentifier: MedicationCell.reuseIdentifier)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = .white
+        
+        view.addSubview(emptyView)
+        emptyView.center(inView: view)
     }
     
 }
@@ -166,6 +154,14 @@ class HomeViewController: UITableViewController {
 extension HomeViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if medications.count == 0 {
+            emptyView.isHidden = false
+            tableView.backgroundColor = .lightGray
+        } else {
+            emptyView.isHidden = true
+            tableView.backgroundColor = .white
+        }
         return medications.count
     }
     
@@ -176,18 +172,13 @@ extension HomeViewController {
         cell.layer.borderColor = UIColor.lightGray.cgColor
         cell.layer.cornerRadius = 5
         cell.checkmarkButton.addTarget(self, action: #selector(putCheckmark), for: .touchUpInside)
-        cell.titleLabel.text = medications[indexPath.row].title
-        cell.amountLabel.text = medications[indexPath.row].amount
-        cell.medicationImageView.image = medications[indexPath.row].image
-        let date = medications[indexPath.row].date
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMM d, h:mm a"
-        cell.timeLabel.text = formatter.string(from: date)
+        let medication = medications[indexPath.row]
+        cell.configureCell(with: medication)
         return cell
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return view.frame.height/12
+        return self.view.frame.height * 0.1
     }
     
     override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {

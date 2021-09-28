@@ -20,7 +20,7 @@ class AddViewController: UIViewController {
         let textField = UITextField()
         textField.attributedPlaceholder = NSAttributedString(string: "Enter Title...", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         textField.textColor = .black
-        textField.layer.cornerRadius = 5
+        textField.layer.cornerRadius = 10
         textField.backgroundColor = .white
         textField.setLeftPaddingPoints(10)
         return textField
@@ -30,9 +30,9 @@ class AddViewController: UIViewController {
         let textField = UITextField()
         textField.attributedPlaceholder = NSAttributedString(string: "Enter Dosage...", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         textField.textColor = .black
-        textField.layer.cornerRadius = 5
+        textField.layer.cornerRadius = 10
         textField.backgroundColor = .white
-        textField.setLeftPaddingPoints(10)  
+        textField.setLeftPaddingPoints(10)
         return textField
     }()
     
@@ -47,7 +47,7 @@ class AddViewController: UIViewController {
         let iv = UIImageView(image: UIImage(named: "pill"))
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFit
-        iv.layer.cornerRadius = 5
+        iv.layer.cornerRadius = 10
         return iv
     }()
     
@@ -55,6 +55,7 @@ class AddViewController: UIViewController {
         let iv = UIImageView(image: UIImage(named: "pill2png"))
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFit
+        iv.layer.cornerRadius = 10
         return iv
     }()
     
@@ -62,7 +63,7 @@ class AddViewController: UIViewController {
         let iv = UIImageView(image: UIImage(named: "powder"))
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFit
-        iv.layer.cornerRadius = 5
+        iv.layer.cornerRadius = 10
         return iv
     }()
     
@@ -70,7 +71,7 @@ class AddViewController: UIViewController {
         let iv = UIImageView(image: UIImage(named: "syrup"))
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFit
-        iv.layer.cornerRadius = 5
+        iv.layer.cornerRadius = 10
         return iv
     }()
     
@@ -78,15 +79,19 @@ class AddViewController: UIViewController {
         let iv = UIImageView(image: UIImage(named: "injection"))
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFit
-        iv.layer.cornerRadius = 5
+        iv.layer.cornerRadius = 10
         return iv
     }()
     
-    let containerView: UIView = {
-        let cv = UIView()
-        cv.backgroundColor = .systemBlue
-        return cv
+    let chooseImgLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.text = "Select an Image:"
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 16)
+        return label
     }()
+    
     
     public var completion: ((String, String, Date, UIImage) -> Void)?
     
@@ -108,6 +113,15 @@ class AddViewController: UIViewController {
             let targetDate = datePicker.date
         
             completion?(titleText, amountText, targetDate, selectedImage)
+            
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound], completionHandler: { success, error in
+                if success {
+                    // schedule notification
+                    self.scheduleNotification(title: titleText, amount: amountText, date: targetDate)
+                } else if error != nil {
+                    print("Error occured")
+                }
+            })
         }
     }
     
@@ -115,6 +129,8 @@ class AddViewController: UIViewController {
         let tappedImage = tapGestureRecognizer.view as! UIImageView
         
         tappedImage.backgroundColor = .mainBlue()
+        titleField.resignFirstResponder()
+        amountField.resignFirstResponder()
         
         switch tappedImage {
         case imageView1:
@@ -154,6 +170,23 @@ class AddViewController: UIViewController {
     
     // MARK: - Helper Functions
     
+    func scheduleNotification(title: String, amount: String, date: Date) {
+        let content = UNMutableNotificationContent()
+        content.title = title
+        content.sound = .default
+        content.body = amount
+        
+        let targetDate = date
+        let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: targetDate), repeats: false)
+        let request = UNNotificationRequest(identifier: "some long id", content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: { error in
+            if error != nil {
+                print("Something went wron!")
+            }
+        })
+    }
+    
+    
     func configureViewComponents() {
         view.backgroundColor = .lightGray
         
@@ -166,28 +199,31 @@ class AddViewController: UIViewController {
         view.addSubview(amountField)
         amountField.anchor(top: titleField.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: view.frame.width, height: 52)
         
+        view.addSubview(chooseImgLabel)
+        chooseImgLabel.anchor(top: amountField.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 0, height: 30)
+        
         view.addSubview(imageView1)
-        imageView1.anchor(top: amountField.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 65, height: 65)
+        imageView1.anchor(top: chooseImgLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 65, height: 65)
         imageView1.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(selectImage(tapGestureRecognizer:))))
         imageView1.isUserInteractionEnabled = true
         
         view.addSubview(imageView2)
-        imageView2.anchor(top: amountField.bottomAnchor, left: imageView1.rightAnchor, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 65, height: 65)
+        imageView2.anchor(top: chooseImgLabel.bottomAnchor, left: imageView1.rightAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 65, height: 65)
         imageView2.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(selectImage(tapGestureRecognizer:))))
         imageView2.isUserInteractionEnabled = true
         
         view.addSubview(imageView3)
-        imageView3.anchor(top: amountField.bottomAnchor, left: imageView2.rightAnchor, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 65, height: 65)
+        imageView3.anchor(top: chooseImgLabel.bottomAnchor, left: imageView2.rightAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 65, height: 65)
         imageView3.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(selectImage(tapGestureRecognizer:))))
         imageView3.isUserInteractionEnabled = true
         
         view.addSubview(imageView4)
-        imageView4.anchor(top: amountField.bottomAnchor, left: imageView3.rightAnchor, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 65, height: 65)
+        imageView4.anchor(top: chooseImgLabel.bottomAnchor, left: imageView3.rightAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 65, height: 65)
         imageView4.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(selectImage(tapGestureRecognizer:))))
         imageView4.isUserInteractionEnabled = true
         
         view.addSubview(imageView5)
-        imageView5.anchor(top: amountField.bottomAnchor, left: imageView4.rightAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 30, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 65, height: 65)
+        imageView5.anchor(top: chooseImgLabel.bottomAnchor, left: imageView4.rightAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 65, height: 65)
         imageView5.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(selectImage(tapGestureRecognizer:))))
         imageView5.isUserInteractionEnabled = true
 
