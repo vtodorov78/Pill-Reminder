@@ -11,6 +11,13 @@ class MedicationCell: UITableViewCell {
     
     static let reuseIdentifier = "MedicationCell"
     
+     var medication: Medication! {
+        didSet {
+            checkmarkButton.isSelected = medication.isMarked
+        }
+    }
+    
+    
     // MARK: - Properties
     
     let medicationImageView: UIImageView = {

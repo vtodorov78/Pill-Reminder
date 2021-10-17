@@ -1,17 +1,25 @@
 //
-//  Medicine.swift
+//  Medication.swift
 //  Pill Reminder
 //
-//  Created by Vladimir Todorov on 29.08.21.
+//  Created by Vladimir Todorov on 14.10.21.
 //
 
 import UIKit
 
-struct Medication {
+class Medication {
     
-    var title: String
-    var amount: String
-    var date: Date
-    var indentifier: String
-    var image: UIImage
+    let title: String
+    let amount: String
+    let date: Date
+    let image: UIImage
+    var isMarked = false
+    
+    init(title: String, amount: String, date: Date, image: UIImage) {
+        self.title = title
+        self.amount = amount
+        self.date = date
+        self.image = image
+    }
 }
+

@@ -15,9 +15,8 @@ class HomeViewController: UITableViewController {
     
     var medications = [Medication]()
     
-    var isChecked = false
-    
     let signOutImage = UIImage(systemName: "arrow.left")
+
     
     let emptyLabel: UILabel = {
         let label = UILabel()
@@ -34,6 +33,15 @@ class HomeViewController: UITableViewController {
         emptyLabel.center(inView: view)
         return view
     }()
+    
+    var welcomeLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 28)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.alpha = 0
+        return label
+    }()
 
     
     // MARK: - Init
@@ -49,14 +57,16 @@ class HomeViewController: UITableViewController {
     // MARK: - Selectors
     
     @objc func addMedicationButtonPressed() {
+        
         // show addVC
         let addVC = AddViewController()
         addVC.title = "New Medication"
         addVC.completion = { title, amount, date, image in
             DispatchQueue.main.async {
                 self.navigationController?.popToRootViewController(animated: true)
-                let new = Medication(title: title, amount: amount, date: date, indentifier: "id_\(title)", image: image)
-                self.medications.append(new)
+                let newMedication = Medication(title: title, amount: amount, date: date, image: image)
+
+                self.medications.append(newMedication)
                 self.tableView.reloadData()
             }
         }
@@ -66,12 +76,20 @@ class HomeViewController: UITableViewController {
     
     
     @objc func putCheckmark(sender: UIButton) {
+        
+        let indexPath = IndexPath(row: sender.tag, section: 0)
+        let cell = tableView.cellForRow(at: indexPath) as! MedicationCell
+        
         if sender.isSelected {
             sender.isSelected = false
+            cell.medication.isMarked = false
         } else {
             sender.isSelected = true
+            cell.medication.isMarked = true
         }
-        tableView.reloadData()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
     @objc func handleSignOut() {
@@ -88,6 +106,18 @@ class HomeViewController: UITableViewController {
     func loadUserData() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         Database.database().reference().child("users").child(uid).child("username").observeSingleEvent(of: .value) { (snapshot) in
+            guard let username = snapshot.value as? String else { return }
+            self.welcomeLabel.text = "Welcome, \(username)"
+           
+            if self.welcomeLabel.alpha == 0 {
+                UIView.animate(withDuration: 1.5, delay: 0.2, options: .curveEaseOut, animations: {
+                    self.welcomeLabel.alpha = 1
+                }) { (Bool) -> Void in
+                    UIView.animate(withDuration: 1.5, delay: 0.2, options: .curveEaseOut, animations: {
+                        self.welcomeLabel.alpha = 0
+                    })
+                }
+            }
         }
     }
     
@@ -117,9 +147,8 @@ class HomeViewController: UITableViewController {
             loadUserData()
         }
     }
-    
-    // MARK: - Helper Functions
 
+    // MARK: - Helper Functions
 
     func configureViewComponents() {
         
@@ -129,12 +158,13 @@ class HomeViewController: UITableViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: signOutImage, style: .plain, target: self, action: #selector(handleSignOut))
         navigationController?.navigationBar.tintColor = .white
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addMedicationButtonPressed))
-        navigationController?.navigationBar.barTintColor = .mainBlue()
         navigationItem.title = "My Medications"
+        navigationController?.navigationBar.prefersLargeTitles = true
         
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = .mainBlue()
+        appearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
         navigationController?.navigationBar.standardAppearance = appearance;
         navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
         
@@ -142,6 +172,10 @@ class HomeViewController: UITableViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = .white
+        
+        view.addSubview(welcomeLabel)
+        welcomeLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
+        welcomeLabel.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor).isActive = true
         
         view.addSubview(emptyView)
         emptyView.center(inView: view)
@@ -157,10 +191,8 @@ extension HomeViewController {
         
         if medications.count == 0 {
             emptyView.isHidden = false
-            tableView.backgroundColor = .lightGray
         } else {
             emptyView.isHidden = true
-            tableView.backgroundColor = .white
         }
         return medications.count
     }
@@ -172,13 +204,15 @@ extension HomeViewController {
         cell.layer.borderColor = UIColor.lightGray.cgColor
         cell.layer.cornerRadius = 5
         cell.checkmarkButton.addTarget(self, action: #selector(putCheckmark), for: .touchUpInside)
+        cell.checkmarkButton.tag = indexPath.row
         let medication = medications[indexPath.row]
+        cell.medication = medication
         cell.configureCell(with: medication)
         return cell
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return self.view.frame.height * 0.1
+        return UITableView.automaticDimension
     }
     
     override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
@@ -188,13 +222,11 @@ extension HomeViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             tableView.beginUpdates()
-            medications.remove(at: indexPath.row)
+//            let medication = medications.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.endUpdates()
         }
     }
-    
-    
 }
 
 
