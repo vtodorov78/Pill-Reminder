@@ -20,13 +20,6 @@ class MedicationCell: UITableViewCell {
     
     // MARK: - Properties
     
-    let medicationImageView: UIImageView = {
-        let imgView = UIImageView()
-        imgView.contentMode = .scaleAspectFit
-        imgView.clipsToBounds = true
-        return imgView
-    }()
-    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -37,9 +30,12 @@ class MedicationCell: UITableViewCell {
     
     let timeLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .mainBlue()
+        label.textColor = .systemBlue
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 14)
+        label.backgroundColor = .babyBlue()
+        label.layer.masksToBounds = true
+        label.layer.cornerRadius = 5
         return label
     }()
     
@@ -85,7 +81,6 @@ class MedicationCell: UITableViewCell {
     func configureCell(with medication: Medication) {
         titleLabel.text = medication.title
         amountLabel.text = medication.amount
-        imageView?.image = medication.image
         let date = medication.date
         let formatter = DateFormatter()
         formatter.dateFormat = "MMM d, h:mm a"
@@ -98,21 +93,17 @@ class MedicationCell: UITableViewCell {
         self.clipsToBounds = true
         contentView.backgroundColor = .white
         
-        addSubview(medicationImageView)
-        medicationImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: self.frame.width/4, height: self.frame.height)
-        
         addSubview(titleLabel)
-        titleLabel.anchor(top: topAnchor, left: medicationImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: self.frame.height/2)
+        titleLabel.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: self.frame.height/2)
         
        addSubview(stack1)
         stack1.axis = .horizontal
         stack1.distribution = .equalSpacing
         stack1.spacing = 10
-        stack1.anchor(top: titleLabel.bottomAnchor, left: medicationImageView.rightAnchor, bottom: bottomAnchor, right: nil, paddingTop: 5, paddingLeft: 20, paddingBottom: 10, paddingRight: 0, width: 0, height: self.frame.height/2)
+        stack1.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 5, paddingLeft: 20, paddingBottom: 10, paddingRight: 0, width: 0, height: self.frame.height/2)
         
         addSubview(checkmarkButton)
         checkmarkButton.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 15, paddingRight: 15, width: self.frame.width/8, height: 0)
         checkmarkButton.backgroundColor = .white
     }
-
 }

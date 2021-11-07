@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FirebaseFirestore
+import FirebaseAuth
 
 class AddViewController: UIViewController {
     
@@ -43,57 +45,8 @@ class AddViewController: UIViewController {
         return datePicker
     }()
     
-    let imageView1: UIImageView = {
-        let iv = UIImageView(image: UIImage(named: "pill"))
-        iv.clipsToBounds = true
-        iv.contentMode = .scaleAspectFit
-        iv.layer.cornerRadius = 10
-        return iv
-    }()
     
-    let imageView2: UIImageView = {
-        let iv = UIImageView(image: UIImage(named: "pill2png"))
-        iv.clipsToBounds = true
-        iv.contentMode = .scaleAspectFit
-        iv.layer.cornerRadius = 10
-        return iv
-    }()
-    
-    let imageView3: UIImageView = {
-        let iv = UIImageView(image: UIImage(named: "powder"))
-        iv.clipsToBounds = true
-        iv.contentMode = .scaleAspectFit
-        iv.layer.cornerRadius = 10
-        return iv
-    }()
-    
-    let imageView4: UIImageView = {
-        let iv = UIImageView(image: UIImage(named: "syrup"))
-        iv.clipsToBounds = true
-        iv.contentMode = .scaleAspectFit
-        iv.layer.cornerRadius = 10
-        return iv
-    }()
-    
-    let imageView5: UIImageView = {
-        let iv = UIImageView(image: UIImage(named: "injection"))
-        iv.clipsToBounds = true
-        iv.contentMode = .scaleAspectFit
-        iv.layer.cornerRadius = 10
-        return iv
-    }()
-    
-    let chooseImgLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.text = "Select an Image:"
-        label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 16)
-        return label
-    }()
-    
-    
-    public var completion: ((String, String, Date, UIImage) -> Void)?
+    public var completion: ((String, String, Date) -> Void)?
     
     // MARK: - Init
     
@@ -107,12 +60,19 @@ class AddViewController: UIViewController {
     // MARK: - Selectors
     
   @objc func didTapSaveButton() {
+     
+      
         if let titleText = titleField.text, !titleText.isEmpty,
-           let amountText = amountField.text, !amountText.isEmpty,
-           let selectedImage = isTheSelectedImage.image {
+           let amountText = amountField.text, !amountText.isEmpty {
             let targetDate = datePicker.date
         
-            completion?(titleText, amountText, targetDate, selectedImage)
+            completion?(titleText, amountText, targetDate)
+            
+            let homeVC = HomeViewController()
+            
+       
+            homeVC.saveData(title: titleText, amount: amountText, date: targetDate)
+            
             
             UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound], completionHandler: { success, error in
                 if success {
@@ -124,49 +84,10 @@ class AddViewController: UIViewController {
             })
         }
     }
+
     
-    @objc func selectImage(tapGestureRecognizer: UITapGestureRecognizer) {
-        let tappedImage = tapGestureRecognizer.view as! UIImageView
-        
-        tappedImage.backgroundColor = .mainBlue()
-        titleField.resignFirstResponder()
-        amountField.resignFirstResponder()
-        
-        switch tappedImage {
-        case imageView1:
-            imageView2.backgroundColor = .none
-            imageView3.backgroundColor = .none
-            imageView4.backgroundColor = .none
-            imageView5.backgroundColor = .none
-            isTheSelectedImage = imageView1
-        case imageView2:
-            imageView1.backgroundColor = .none
-            imageView3.backgroundColor = .none
-            imageView4.backgroundColor = .none
-            imageView5.backgroundColor = .none
-            isTheSelectedImage = imageView2
-        case imageView3:
-            imageView2.backgroundColor = .none
-            imageView1.backgroundColor = .none
-            imageView4.backgroundColor = .none
-            imageView5.backgroundColor = .none
-            isTheSelectedImage = imageView3
-        case imageView4:
-            imageView2.backgroundColor = .none
-            imageView3.backgroundColor = .none
-            imageView1.backgroundColor = .none
-            imageView5.backgroundColor = .none
-            isTheSelectedImage = imageView4
-        case imageView5:
-            imageView2.backgroundColor = .none
-            imageView3.backgroundColor = .none
-            imageView4.backgroundColor = .none
-            imageView1.backgroundColor = .none
-            isTheSelectedImage = imageView5
-        default:
-            tappedImage.backgroundColor = .none
-        }
-    }
+   
+
     
     // MARK: - Helper Functions
     
@@ -199,37 +120,8 @@ class AddViewController: UIViewController {
         view.addSubview(amountField)
         amountField.anchor(top: titleField.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: view.frame.width, height: 52)
         
-        view.addSubview(chooseImgLabel)
-        chooseImgLabel.anchor(top: amountField.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 0, height: 30)
-        
-        view.addSubview(imageView1)
-        imageView1.anchor(top: chooseImgLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 65, height: 65)
-        imageView1.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(selectImage(tapGestureRecognizer:))))
-        imageView1.isUserInteractionEnabled = true
-        
-        view.addSubview(imageView2)
-        imageView2.anchor(top: chooseImgLabel.bottomAnchor, left: imageView1.rightAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 65, height: 65)
-        imageView2.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(selectImage(tapGestureRecognizer:))))
-        imageView2.isUserInteractionEnabled = true
-        
-        view.addSubview(imageView3)
-        imageView3.anchor(top: chooseImgLabel.bottomAnchor, left: imageView2.rightAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 65, height: 65)
-        imageView3.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(selectImage(tapGestureRecognizer:))))
-        imageView3.isUserInteractionEnabled = true
-        
-        view.addSubview(imageView4)
-        imageView4.anchor(top: chooseImgLabel.bottomAnchor, left: imageView3.rightAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 65, height: 65)
-        imageView4.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(selectImage(tapGestureRecognizer:))))
-        imageView4.isUserInteractionEnabled = true
-        
-        view.addSubview(imageView5)
-        imageView5.anchor(top: chooseImgLabel.bottomAnchor, left: imageView4.rightAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 65, height: 65)
-        imageView5.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(selectImage(tapGestureRecognizer:))))
-        imageView5.isUserInteractionEnabled = true
-
-        
        view.addSubview(datePicker)
-        datePicker.anchor(top: imageView1.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: view.frame.width, height: view.frame.height/3)
+        datePicker.anchor(top: amountField.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: view.frame.width, height: view.frame.height/3)
     }
 }
 

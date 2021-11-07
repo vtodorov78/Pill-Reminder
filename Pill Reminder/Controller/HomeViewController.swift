@@ -8,7 +8,7 @@
 import UIKit
 import Firebase
 import UserNotifications
-                
+
 class HomeViewController: UITableViewController {
     
     // MARK: - Properties
@@ -16,7 +16,9 @@ class HomeViewController: UITableViewController {
     var medications = [Medication]()
     
     let signOutImage = UIImage(systemName: "arrow.left")
-
+    
+    let database = Firestore.firestore()
+    
     
     let emptyLabel: UILabel = {
         let label = UILabel()
@@ -42,7 +44,7 @@ class HomeViewController: UITableViewController {
         label.alpha = 0
         return label
     }()
-
+    
     
     // MARK: - Init
     
@@ -61,17 +63,17 @@ class HomeViewController: UITableViewController {
         // show addVC
         let addVC = AddViewController()
         addVC.title = "New Medication"
-        addVC.completion = { title, amount, date, image in
+        addVC.completion = { title, amount, date in
             DispatchQueue.main.async {
                 self.navigationController?.popToRootViewController(animated: true)
-                let newMedication = Medication(title: title, amount: amount, date: date, image: image)
-
+                
+                let newMedication = Medication(title: title, amount: amount, date: date)
                 self.medications.append(newMedication)
+                
                 self.tableView.reloadData()
             }
         }
         navigationController?.pushViewController(addVC, animated: true)
-        
     }
     
     
@@ -105,20 +107,57 @@ class HomeViewController: UITableViewController {
     
     func loadUserData() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        Database.database().reference().child("users").child(uid).child("username").observeSingleEvent(of: .value) { (snapshot) in
-            guard let username = snapshot.value as? String else { return }
-            self.welcomeLabel.text = "Welcome, \(username)"
-           
-            if self.welcomeLabel.alpha == 0 {
-                UIView.animate(withDuration: 1.5, delay: 0.2, options: .curveEaseOut, animations: {
-                    self.welcomeLabel.alpha = 1
-                }) { (Bool) -> Void in
-                    UIView.animate(withDuration: 1.5, delay: 0.2, options: .curveEaseOut, animations: {
-                        self.welcomeLabel.alpha = 0
-                    })
+        
+        Database.database().reference().child("users").child(uid).observeSingleEvent(of: .value) { (snapshot) in
+            print(snapshot)
+            self.readData()
+        }
+    }
+    
+    func saveData(title: String, amount: String, date: Date) {
+        database.collection("medications").addDocument(data: [
+            "title": title,
+            "amount": amount,
+            "date": date
+            
+        ]) { (error) in
+            if let e = error {
+                print("There was an issue saving data to firestore, \(e)")
+            } else {
+                print("Successfully saved data.")
+            }
+        }
+    }
+    
+    func readData() {
+        database.collection("medications").addSnapshotListener { querySnapshot, error in
+            self.medications = []
+            
+            if let e = error {
+                print("There was an issue retrieving data from Firestore. \(e)")
+            } else {
+                if let snapshotDocuments = querySnapshot?.documents {
+                    
+                    for doc in snapshotDocuments {
+                        let data = doc.data()
+                        let title = data["title"] as? String ?? ""
+                        let amount = data["amount"] as? String ?? ""
+                        let date = (data["date"] as? Timestamp)?.dateValue() ?? Date()
+                        let id = doc.documentID
+                        let medication = Medication(title: title, amount: amount, date: date)
+                        medication.uid = id
+                        self.medications.append(medication)
+                    }
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
                 }
             }
         }
+    }
+    
+    func deleteData(id: String) {
+        database.collection("medications").document(id).delete()
     }
     
     func signOut() {
@@ -147,9 +186,9 @@ class HomeViewController: UITableViewController {
             loadUserData()
         }
     }
-
+    
     // MARK: - Helper Functions
-
+    
     func configureViewComponents() {
         
         tableView.tableFooterView = UIView()
@@ -221,8 +260,13 @@ extension HomeViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            // delete document
+            let medication = medications[indexPath.row]
+            guard let documentID = medication.uid else { return }
+            deleteData(id: documentID)
+            
             tableView.beginUpdates()
-//            let medication = medications.remove(at: indexPath.row)
+            medications.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.endUpdates()
         }

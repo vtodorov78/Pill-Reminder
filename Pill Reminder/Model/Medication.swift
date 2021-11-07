@@ -12,14 +12,14 @@ class Medication {
     let title: String
     let amount: String
     let date: Date
-    let image: UIImage
     var isMarked = false
+    var currentUser: String?
+    var uid: String?
     
-    init(title: String, amount: String, date: Date, image: UIImage) {
+    init(title: String, amount: String, date: Date) {
         self.title = title
         self.amount = amount
         self.date = date
-        self.image = image
     }
 }
 
