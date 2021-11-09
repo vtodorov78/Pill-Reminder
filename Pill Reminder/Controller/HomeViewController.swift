@@ -36,15 +36,6 @@ class HomeViewController: UITableViewController {
         return view
     }()
     
-    var welcomeLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 28)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.alpha = 0
-        return label
-    }()
-    
     
     // MARK: - Init
     
@@ -68,6 +59,7 @@ class HomeViewController: UITableViewController {
                 self.navigationController?.popToRootViewController(animated: true)
                 
                 let newMedication = Medication(title: title, amount: amount, date: date)
+                newMedication.currentUser = Auth.auth().currentUser?.uid
                 self.medications.append(newMedication)
                 
                 self.tableView.reloadData()
@@ -105,20 +97,13 @@ class HomeViewController: UITableViewController {
     
     // MARK: - API
     
-    func loadUserData() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        
-        Database.database().reference().child("users").child(uid).observeSingleEvent(of: .value) { (snapshot) in
-            print(snapshot)
-            self.readData()
-        }
-    }
-    
     func saveData(title: String, amount: String, date: Date) {
+        guard let user = Auth.auth().currentUser?.uid else { return }
         database.collection("medications").addDocument(data: [
             "title": title,
             "amount": amount,
-            "date": date
+            "date": date,
+            "user": user
             
         ]) { (error) in
             if let e = error {
@@ -130,7 +115,8 @@ class HomeViewController: UITableViewController {
     }
     
     func readData() {
-        database.collection("medications").addSnapshotListener { querySnapshot, error in
+        guard let user = Auth.auth().currentUser?.uid else { return }
+        database.collection("medications").whereField("user", isEqualTo: user).order(by: "date").addSnapshotListener { querySnapshot, error in
             self.medications = []
             
             if let e = error {
@@ -166,6 +152,7 @@ class HomeViewController: UITableViewController {
             let navController = UINavigationController(rootViewController: LoginViewController())
             navController.navigationBar.barStyle = .black
             navController.modalPresentationStyle = .fullScreen
+            self.dismiss(animated: true)
             self.present(navController, animated: true)
         } catch let error {
             print("Failed to sign our with error ", error.localizedDescription)
@@ -183,7 +170,7 @@ class HomeViewController: UITableViewController {
             }
         } else {
             configureViewComponents()
-            loadUserData()
+            readData()
         }
     }
     
@@ -211,10 +198,6 @@ class HomeViewController: UITableViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = .white
-        
-        view.addSubview(welcomeLabel)
-        welcomeLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
-        welcomeLabel.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor).isActive = true
         
         view.addSubview(emptyView)
         emptyView.center(inView: view)

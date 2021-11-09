@@ -7,8 +7,11 @@
 
 import UIKit
 import Firebase
+import FirebaseFirestore
 
 class RegistrationViewController: UIViewController {
+    
+    let database = Firestore.firestore()
     
     // MARK: - Properties
     
@@ -109,21 +112,34 @@ class RegistrationViewController: UIViewController {
                 print("Failed to sign up user with error: ", error.localizedDescription)
                 return
             }
-            guard let uid = result?.user.uid else { return }
             
             let values = ["email": email, "username": username]
             
-            Database.database().reference().child("users").child(uid).updateChildValues(values, withCompletionBlock: { error, ref in
-                if let error = error {
-                    print("Failed to update database values with error: ", error.localizedDescription)
-                    return
+            self.database.collection("users").addDocument(data: values) { (error) in
+                if let e = error {
+                    print("There was an issue saving data to firestore, \(e)")
+                } else {
+                    print("Successfully saved data.")
+                    guard let navController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController else { return }
+                    guard let controller = navController.viewControllers[0] as? HomeViewController else { return }
+                    controller.configureViewComponents()
+                    
+                    self.dismiss(animated: true, completion: nil)
                 }
-                guard let navController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController else { return }
-                guard let controller = navController.viewControllers[0] as? HomeViewController else { return }
-                controller.configureViewComponents()
-                
-                self.dismiss(animated: true, completion: nil)
-            })
+            }
+
+            
+//            Database.database().reference().child("users").child(uid).updateChildValues(values, withCompletionBlock: { error, ref in
+//                if let error = error {
+//                    print("Failed to update database values with error: ", error.localizedDescription)
+//                    return
+//                }
+//                guard let navController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController else { return }
+//                guard let controller = navController.viewControllers[0] as? HomeViewController else { return }
+//                controller.configureViewComponents()
+//
+//                self.dismiss(animated: true, completion: nil)
+//            })
         }
     }
     

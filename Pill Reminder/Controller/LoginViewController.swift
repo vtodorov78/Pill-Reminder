@@ -9,7 +9,7 @@ import UIKit
 import Firebase
 
 class LoginViewController: UIViewController {
-    
+        
     // MARK: - Properties
     
     var logoImageView: UIImageView = {
@@ -100,6 +100,7 @@ class LoginViewController: UIViewController {
             guard let navController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController else { return }
             guard let controller = navController.viewControllers[0] as? HomeViewController else { return }
             controller.configureViewComponents()
+            controller.readData()
             
             self.dismiss(animated: true, completion: nil)
         }
