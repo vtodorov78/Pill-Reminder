@@ -8,6 +8,7 @@
 import UIKit
 import Firebase
 import UserNotifications
+import NotificationBannerSwift
 
 class HomeViewController: UITableViewController {
     
@@ -81,6 +82,14 @@ class HomeViewController: UITableViewController {
             sender.isSelected = true
             cell.medication.isMarked = true
         }
+        
+        // delete taken medication
+        let medication = medications[indexPath.row]
+        guard let documentID = medication.uid else { return }
+        deleteData(id: documentID)
+        pushSuccessNotificationBanner()
+        medications.remove(at: sender.tag)
+        
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
@@ -176,6 +185,28 @@ class HomeViewController: UITableViewController {
     
     // MARK: - Helper Functions
     
+    func removeMedicationRow(sender: UIButton) {
+        medications.remove(at: sender.tag)
+        self.tableView.reloadData()
+        
+    }
+    
+    func pushSuccessNotificationBanner() {
+        let banner = NotificationBanner(title: "Medication is taken.", subtitle: nil, leftView: nil, rightView: nil, style: .success, colors: nil)
+        banner.dismissOnTap = true
+        banner.dismissOnSwipeUp = true
+        banner.titleLabel?.textAlignment = .center
+        banner.show()
+    }
+    
+    func pushWarningNotificationBanner() {
+        let banner = NotificationBanner(title: "Medication is removed.", subtitle: nil, leftView: nil, rightView: nil, style: .danger, colors: nil)
+        banner.dismissOnTap = true
+        banner.dismissOnSwipeUp = true
+        banner.titleLabel?.textAlignment = .center
+        banner.show()
+    }
+    
     func configureViewComponents() {
         
         tableView.tableFooterView = UIView()
@@ -252,6 +283,7 @@ extension HomeViewController {
             medications.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.endUpdates()
+            pushWarningNotificationBanner()
         }
     }
 }

@@ -10,5 +10,6 @@ target 'Pill Reminder' do
         pod 'Firebase/Database'
         pod 'Firebase/Auth'
         pod 'Firebase/Firestore'
+        pod 'NotificationBannerSwift', '~> 3.0.0'
 
 end

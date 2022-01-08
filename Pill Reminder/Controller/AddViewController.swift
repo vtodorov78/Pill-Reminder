@@ -17,7 +17,6 @@ class AddViewController: UIViewController {
     var isSelected = false
     var isTheSelectedImage: UIImageView!
 
-    
     let titleField: UITextField = {
         let textField = UITextField()
         textField.attributedPlaceholder = NSAttributedString(string: "Enter Title...", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
@@ -61,7 +60,6 @@ class AddViewController: UIViewController {
     
   @objc func didTapSaveButton() {
      
-      
         if let titleText = titleField.text, !titleText.isEmpty,
            let amountText = amountField.text, !amountText.isEmpty {
             let targetDate = datePicker.date
