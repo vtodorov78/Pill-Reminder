@@ -113,6 +113,20 @@ class RegistrationViewController: UIViewController {
                 return
             }
             
+            // set displayName
+            let user = Auth.auth().currentUser
+            if let user = user {
+                let changeRequest = user.createProfileChangeRequest()
+                changeRequest.displayName = username
+                changeRequest.commitChanges { error in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    } else {
+                        print(username)
+                    }
+                }
+            }
+            
             let values = ["email": email, "username": username]
             
             self.database.collection("users").addDocument(data: values) { (error) in
@@ -120,7 +134,8 @@ class RegistrationViewController: UIViewController {
                     print("There was an issue saving data to firestore, \(e)")
                 } else {
                     print("Successfully saved data.")
-                    guard let navController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController else { return }
+                    guard let tabController = UIApplication.shared.keyWindow?.rootViewController as? UITabBarController else { return }
+                    guard let navController = tabController.viewControllers?.first as? UINavigationController else { return }
                     guard let controller = navController.viewControllers[0] as? HomeViewController else { return }
                     controller.configureViewComponents()
                     
@@ -141,6 +156,8 @@ class RegistrationViewController: UIViewController {
 //                self.dismiss(animated: true, completion: nil)
 //            })
         }
+       
+        
     }
     
     // MARK: - Helper Functions

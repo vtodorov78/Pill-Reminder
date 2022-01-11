@@ -7,8 +7,10 @@
 
 import UIKit
 import Firebase
+import FirebaseAuth
 
 class LoginViewController: UIViewController {
+    
         
     // MARK: - Properties
     
@@ -97,7 +99,9 @@ class LoginViewController: UIViewController {
                 print("Failed to sign user in with error: ", error.localizedDescription)
                 return
             }
-            guard let navController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController else { return }
+            
+            guard let tabController = UIApplication.shared.keyWindow?.rootViewController as? UITabBarController else { return }
+            guard let navController = tabController.viewControllers?.first as? UINavigationController else { return }
             guard let controller = navController.viewControllers[0] as? HomeViewController else { return }
             controller.configureViewComponents()
             controller.readData()
@@ -110,7 +114,6 @@ class LoginViewController: UIViewController {
     // MARK: - Helper Functions
     
     func configureViewComponents() {
-        
         view.backgroundColor = UIColor.mainBlue()
         navigationController?.navigationBar.isHidden = true
         

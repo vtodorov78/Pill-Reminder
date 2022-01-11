@@ -12,7 +12,8 @@
 		7670F58626AC266F00C51F0B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7670F58526AC266F00C51F0B /* HomeViewController.swift */; };
 		7670F58826AC269A00C51F0B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7670F58726AC269A00C51F0B /* Extensions.swift */; };
 		76764D93278AD1840013AFCE /* UserInfoHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76764D92278AD1840013AFCE /* UserInfoHeader.swift */; };
-		76764D95278AD1C10013AFCE /* SettingsCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76764D94278AD1C10013AFCE /* SettingsCellTableViewCell.swift */; };
+		76764D95278AD1C10013AFCE /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76764D94278AD1C10013AFCE /* SettingsCell.swift */; };
+		767787EB278B40A5000BFD1D /* SettingsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767787EA278B40A5000BFD1D /* SettingsSection.swift */; };
 		76A6F786278A5D420060C4C3 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A6F785278A5D420060C4C3 /* SettingsViewController.swift */; };
 		76C32D3A271785BF0031A8F2 /* Medication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C32D39271785BF0031A8F2 /* Medication.swift */; };
 		76CB82ED26EA8E4200147687 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CB82EC26EA8E4200147687 /* AddViewController.swift */; };
@@ -31,7 +32,8 @@
 		7670F58526AC266F00C51F0B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		7670F58726AC269A00C51F0B /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		76764D92278AD1840013AFCE /* UserInfoHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoHeader.swift; sourceTree = "<group>"; };
-		76764D94278AD1C10013AFCE /* SettingsCellTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCellTableViewCell.swift; sourceTree = "<group>"; };
+		76764D94278AD1C10013AFCE /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
+		767787EA278B40A5000BFD1D /* SettingsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSection.swift; sourceTree = "<group>"; };
 		76A6F785278A5D420060C4C3 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		76C32D39271785BF0031A8F2 /* Medication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Medication.swift; sourceTree = "<group>"; };
 		76CB82EC26EA8E4200147687 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				76C32D39271785BF0031A8F2 /* Medication.swift */,
+				767787EA278B40A5000BFD1D /* SettingsSection.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -116,7 +119,7 @@
 				76EB0EFC26AA13670044607C /* LaunchScreen.storyboard */,
 				760DBEE926DB626F00122FD1 /* MedicationCell.swift */,
 				76764D92278AD1840013AFCE /* UserInfoHeader.swift */,
-				76764D94278AD1C10013AFCE /* SettingsCellTableViewCell.swift */,
+				76764D94278AD1C10013AFCE /* SettingsCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -266,10 +269,11 @@
 			files = (
 				7670F58626AC266F00C51F0B /* HomeViewController.swift in Sources */,
 				76CB82ED26EA8E4200147687 /* AddViewController.swift in Sources */,
-				76764D95278AD1C10013AFCE /* SettingsCellTableViewCell.swift in Sources */,
+				76764D95278AD1C10013AFCE /* SettingsCell.swift in Sources */,
 				7670F58826AC269A00C51F0B /* Extensions.swift in Sources */,
 				76764D93278AD1840013AFCE /* UserInfoHeader.swift in Sources */,
 				76A6F786278A5D420060C4C3 /* SettingsViewController.swift in Sources */,
+				767787EB278B40A5000BFD1D /* SettingsSection.swift in Sources */,
 				760DBEEA26DB626F00122FD1 /* MedicationCell.swift in Sources */,
 				76EB0EF626AA13660044607C /* LoginViewController.swift in Sources */,
 				76EB0EF226AA13660044607C /* AppDelegate.swift in Sources */,
