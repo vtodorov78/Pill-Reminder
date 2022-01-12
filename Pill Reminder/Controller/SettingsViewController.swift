@@ -12,8 +12,6 @@ private let reuseIdentifier = "SettingsCell"
 
 class SettingsViewController: UIViewController {
     
-    
-    
     // MARK: - Properties
     
     var tableView: UITableView!

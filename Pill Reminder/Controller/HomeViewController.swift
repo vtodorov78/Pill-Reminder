@@ -237,6 +237,30 @@ class HomeViewController: UITableViewController {
     
 }
 
+extension HomeViewController: InfoViewDelegate {
+    
+    func takeMedication() {
+        let indexPath = tableView.indexPathForSelectedRow
+        let medication = medications[indexPath!.row]
+        guard let documentID = medication.uid else { return }
+        deleteData(id: documentID)
+        pushSuccessNotificationBanner()
+        medications.remove(at: indexPath!.row)
+    }
+    
+    
+    func deleteMedication() {
+        let indexPath = tableView.indexPathForSelectedRow
+        let medication = medications[indexPath!.row]
+        guard let documentID = medication.uid else { return }
+        deleteData(id: documentID)
+        pushWarningNotificationBanner()
+        medications.remove(at: indexPath!.row)
+    }
+    
+    
+}
+
 // MARK: - UITableViewDelegate/Datasource
 
 extension HomeViewController {
@@ -265,6 +289,17 @@ extension HomeViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let infoVC = InfoViewController()
+        infoVC.delegate = self
+        infoVC.modalPresentationStyle = .automatic
+        infoVC.medicationTitle = medications[indexPath.row].title
+        infoVC.medicationDosage = medications[indexPath.row].amount
+        infoVC.medicationDate = medications[indexPath.row].date
+        self.present(infoVC, animated: true)
+        
+    }
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
@@ -288,6 +323,7 @@ extension HomeViewController {
         }
     }
 }
+
 
 
 
